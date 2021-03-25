@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a personalized version of a Github Finder originally created by Brad Traversy. This project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and utilizes the React-Bootstrap library. 
 
 ## Available Scripts
 
