@@ -1,0 +1,151 @@
+------------- Package.json --------------
+Dependencies
+react: the react library
+react-dom: allows us to render our application is the browser. 
+react-scripts: The magic behind create-react-app. create-react-app uses webpack and babel, but we don't need to deal with a webpack config file or anything like that. 
+-------------------------------------------
+React is a single page application framework. A SPA is an  application where everything is routed through a single file. By default, that file is the index.html file. 
+
+index.js is where you take what you want to render, and where you want to render it to. 
+
+
+
+It is today's standard to use function based components.
+
+When you don't want to return a div in your component, but just an h1 tag, wrap the h1 tag in '<React.Fragment>', or just <Fragment> if you import "{Fragment} from 'react';"
+
+-----EXPRESSIONS AND CONDITIONALS IN JSX-----
+If you want to use a conditional statement, you have to make sure it is before the return(), unless you use a ternary operator inside of the return. Remember the syntax is ? : 
+
+Example: {loading ? <h1>Loading...</h1> : <h1>Hello From {name}</h1> }
+
+If we have a conditional statement where if the statement is true, do something and if it is false, do null, then we can use &&.
+
+Example: {showName && name}
+
+^ This is saying, if showName is true, then return name, else, return null. 
+
+
+----------Components, Props, and PropTypes-----------
+Props are properties that you can from App.js into components that it imports. 
+
+static defaultProps = {
+    title: 'Github Finder'
+  };
+
+^ this sets default props in a component if they are not pssed in from files that import that component. 
+
+ static propTypes ={
+    title: PropTypes.string.isRequired,
+  }
+
+  ^ this checks that the type of prop is the one you are getting. It is also checking to make sure that the prop exists. If it doesn't the code will still render, but you'll get an error in the console.
+
+
+
+
+  -----------Component level state-------------
+  Is where state is contained in a single component. 
+
+Put this:
+  const {login, avatar_url, html_url} = this.state;
+
+  right before the render method for destcutring. Now we can use {login} instead of {this.state.login}.
+
+  -------Lists and Passing State with Props-------
+
+We can use the map() method to loop through the users array and return certain data from each object in the array. Whenever you loop through an array, called a list in React, you need to have a unique key. 
+
+UserItem is able to use the attributes of objects passed into it from the props entered into it by the Users Component. 
+
+-----Stateless Functional Components-----
+
+Functional components can be arrow functions. 
+
+With functional components, instead of props being used with 'this.props.user', we don't use the 'this' keyword, I believe because 'this' refers to an object, and a class makes an object, but a function cannot. 
+
+We pass props into the parameter of the arrow funtion. We can do our destructuring in this paramater. Dw, you can pass more than one prop in, even if your destructuring one of the props. 
+
+Ex: const UserItem = ({user: {login, avatar_url, html_url}, fucky}) =>  {
+
+For both defaultProps and propTypes, we now create them in the top level code, after the function is made. 
+
+
+-----HTTP Requests and Updating State----
+componentDidMount(){
+
+}
+runs when the component loads in the browser. you want to make calls to an api in the body of this function. 
+
+Axios returns promises, so we can use '.then' or async await to handle them. 
+
+In class based components, to change the state, we can not change it directly. so instea do of 'this.state.loading = true;',
+we say 'this.setState({ loading: true })'.
+
+----Spinner component and refactoring----
+
+If we are only returning an element from a component, and we don't have any other js in the component, then we don't need the curly braces from the arrow function nor do we need 'return ()'
+
+Example:
+
+const Spinner = () => 
+   
+        <Fragment>
+            <img src={spinner} alt="Loading... " className="d-block m-auto"/>
+        </Fragment>
+
+
+-----Environement Variables-------
+To use environement variables, make a '.env.local' file and place your variables in there. The point of these variables is that they will be uploaded to the server and won't be accessible from the client.
+
+When calling them in your js files, refer to them as 'process.env.VARIABLE_NAME'
+
+-----Events and Search Component------
+If you have a function that you are placing in a form, such as onSubmit or onChange, if the function isn't an arrow function, then make sure to call the function like this:
+
+onSubmit={this.onSubmit.bind(this)} 
+
+because in regular functions the 'this' keyword represents the 'this' in the scope where 'this' is called. 
+
+else, do it like this:
+
+onSubmit={this.onSubmit} 
+
+With arrow functions the 'this' keyword always represents the 'this' that is inside of the arrow function. 
+
+
+
+when working with an onChange function in a form, we can set: 
+
+this.setState({ [e.target.name]: e.target.value})
+
+and then name the name whatever the state is named. In this case, name="search" in Form.Control. This way we only need to have one onChage method, because the state that we sent is changed dynamically. 
+
+When we press the submit button in Search Users, we pass the string typed into the searchbar to App.js using props. 
+
+ <Search searchUsers={this.searchUsers}/>
+
+ We catch searchUsers, then we call it on the other side of the equal sign. 
+
+You can pass props up and down through components, but it gets confusing to tell which ones are being passed up and which ones are being passed down. 
+
+---React Router Setup---
+We can set up different routes using react-router. We will us BrowserRouter, which we have renamed as Router, Switch, and Route. 
+
+Wrap the enitre return from App.js in Router tags. 
+
+
+For the content that will change between pages, (so not navbar, footer, etc.) put it in switch tags. For the content of each different route, wrap them in Route. If you are only passing in one component, you can use the component keyword. 
+
+If you are passing in multiple componenets, wrap them in a render ={}. If the components use prop, make sure to pass in props. 
+
+<Route exact path = '/' render= {props=> (
+         <Fragment>
+    <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={users.length > 0 ? true : false} setAlert={this.setAlert}/>
+        <Users loading={loading} users={users} />
+         </Fragment>
+       )}/>
+
+
+---Single User Component and Data---
+When grabbing a parameter in a component, we want to use a ':' in the route path of whatever page the component will be in. The ':' indicates that the name of whatever comes after it will store the value of the actual paramter variable. 
