@@ -2,6 +2,9 @@
 
 This project is a personalized version of a Github Finder originally created by Brad Traversy. This project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and utilizes the React-Bootstrap library. The data is fetched from GitHub's public API. 
 
+## Demo
+github-finder-react-frontend.netlify.app
+
 ## Available Scripts
 
 In the project directory, you can run:
